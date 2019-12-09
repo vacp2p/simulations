@@ -1,0 +1,3 @@
+[submodule "waku/nim-eth"]
+	path = waku/nim-eth
+	url = git@github.com:status-im/nim-eth.git
