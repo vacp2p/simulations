@@ -24,3 +24,16 @@ For now, basics are enough. I.e. a few nodes that send some Waku envelopes betwe
 ## To run
 
 `./start.sh`
+
+
+## Bandwidth usage
+
+To verify that stats seem roughly accurate out of band, use e.g. https://github.com/raboof/nethogs
+
+`sudo nethogs -v 3`:
+
+```
+>   27340 oskarth  ./shh_client                                                      wlp2s0      0.113	   0.192 MB
+``
+
+This shows bandwidth usage per process. Note that this has to be started before the process.
