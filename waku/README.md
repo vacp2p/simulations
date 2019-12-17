@@ -21,41 +21,40 @@ And progressively more sophisticated modes. That is, starting with a basic simul
 
 For now, basics are enough. I.e. a few nodes that send some Waku envelopes between eachother.
 
+
 ## To run
 
+<!--
 `./start.sh`
 
 Doesn't do much right now.
+-->
 
 ## Running manually (WIP atm)
 
-TODO: Migrate this to submodule and this repo once basics work there.
+TODO: Once waku-mode branch is merged, use as submodule
 
-TODO: This is still using Whisper layer, not Waku, should be fixed once basics work.
-
-NOTE: This is connecting to mainnet cluster. Alternative topologies are: private (need to fix docker bootstrap nodes / embed here) and direct connect (issue with out of proc keypair persistence).
-
-In `nim-eth`, see https://github.com/status-im/nim-eth/pull/145:
+From https://github.com/status-im/nimbus/pull/437:
 
 ```
-nim c -o:waku_simulation tests/p2p/waku_simulation.nim
+./build/wakunode --log-level:DEBUG --bootnode-only --nodekey:5dc5381cae54ba3174dc0d46040fe11614d0cc94d41185922585198b4fcef9d3
 
-# Two separate terminals
-./waku_simulation --port=30000 --mainnet --watch
-./waku_simulation --port=30001 --mainnet --post
+./build/wakunode --log-level:DEBUG --bootnodes:enode://e5fd642a0f630bbb1e4cd7df629d7b8b019457a9a74f983c0484a045cebb176def86a54185b50bbba6bbf97779173695e92835d63109c23471e6da382f922fdb@0.0.0.0:30303 --rpc --ports-shift:1 --waku-mode:WakuSan
+
+./build/wakunode --log-level:DEBUG --bootnodes:enode://e5fd642a0f630bbb1e4cd7df629d7b8b019457a9a74f983c0484a045cebb176def86a54185b50bbba6bbf97779173695e92835d63109c23471e6da382f922fdb@0.0.0.0:30303 --rpc --ports-shift:2 --waku-mode:WakuChan
+
+./build/quicksim
 ```
-
-### Current issue
-
-Expected result: See messages (handler log) appearing in watch process.
-
-Actual result: Connected to Whisper nodes, messages appear to be sent and filters installed, but no messages coming through.
-
-Note: Noticed some `WRN 2019-12-11 13:46:56+08:00 Message PoW too low                        topics="whisper" tid=8053 minPow=0.2 pow=0.0003289473684210526`, unclear if related or mainnet artifact.
 
 ### Minimal Scenario to support
 
 Minimal KISS: One node is sending 10 messages over some fixed topic. Another node is listening to that topic. What's the bandwidth usage?
+
+NOTE: It's all over localhost and using RPC, and a bit difficult to disentangle through nethogs/iotops etc.
+
+TODO: Try running through Docker for cleaner stats
+
+TODO: Get envelope counter up and running to get basic multiplier stats
 
 ## Bandwidth usage
 
